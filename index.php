@@ -7,11 +7,19 @@
     <link href="css/bootstrap.min.css" rel="stylesheet"/>
     <link href="css/dataTables.bootstrap.min.css" rel="stylesheet"/>
     <link href="css/dataTables.checkboxes.css" rel="stylesheet"/>
+    <script type="text/javascript" src="js/btn_top.js"></script>
+    <link rel="stylesheet" href="css/btn_top.css" >
     <script src="js/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/jquery.dataTables.min.js"></script>
     <script src="js/dataTables.bootstrap.min.js"></script>
     <script src="js/dataTables.checkboxes.min.js"></script>
+    <script src="https://code.jquery.com/jquery-1.11.3.js"></script>
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script type="text/javascript" src="http://arrow.scrolltotop.com/arrow86.js"></script>
+<noscript>Not seeing a <a href="http://www.scrolltotop.com/">Scroll to Top Button</a>? Go to our FAQ page for more info.</noscript>
+
 
     <style type="text/css">
 
@@ -33,6 +41,21 @@
         h4{
             text-align: center;
         }
+        .btn_top {
+    background-image: url(../images/btn_top.png);
+    background-repeat: no-repeat;
+    border: medium none;
+    bottom: 20px;
+    cursor: pointer;
+    display: none;
+    height: 50px;
+    outline: medium none;
+    padding: 0;
+    position: fixed;
+    right: 20px;
+    width: 50px;
+    z-index: 9999;
+}
        
     </style>
 
@@ -307,6 +330,7 @@
 
 
 </body>
+<div class="footer"> <a class="btn_top" href="javascript:void(0);" title="Top" style="display: inline;"></a> </div>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
 <!-- jQuery library -->
