@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th6 13, 2018 lúc 04:19 AM
+-- Thời gian đã tạo: Th6 19, 2018 lúc 09:40 AM
 -- Phiên bản máy phục vụ: 10.1.29-MariaDB
 -- Phiên bản PHP: 7.2.0
 
@@ -21,6 +21,18 @@ SET time_zone = "+00:00";
 --
 -- Cơ sở dữ liệu: `qldaotao`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `a`
+--
+
+CREATE TABLE `a` (
+  `first_name` int(11) NOT NULL,
+  `last_name` int(11) NOT NULL,
+  `email` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -52,8 +64,7 @@ CREATE TABLE `tblchitietctdt` (
   `maCT` int(11) NOT NULL,
   `maMH` int(11) NOT NULL,
   `soTTHK` int(11) NOT NULL COMMENT 'số thứ tự học kỳ',
-  `batbuoc` tinyint(1) NOT NULL,
-  `ghiChu` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL
+  `batbuoc` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------

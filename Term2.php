@@ -18,7 +18,7 @@ $columns = array(
 	4 => 'soTCThuchanh',
 );
 
-$sql = "SELECT id, tenMon, tongSoTC, soTCLyThuyet, soTCThuchanh FROM tblmonhoc ";
+$sql = "SELECT id, tenMon, tongSoTC, soTCLyThuyet, soTCThuchanh FROM tblmonhoc, tblchitietctdt WHERE tblmonhoc.id = tblchitietctdt.maMH AND tblchitietctdt.soTTHK = 2";
 $query=mysqli_query($conn, $sql);
 while( $row=mysqli_fetch_array($query) ) {  // preparing an array
 	$nestedData=array(); 
@@ -28,6 +28,9 @@ while( $row=mysqli_fetch_array($query) ) {  // preparing an array
 	$nestedData[] = $row["tongSoTC"];
 	$nestedData[] = $row["soTCLyThuyet"];
 	$nestedData[] = $row["soTCThuchanh"];
+
+
+	//$nestedData[] = $row["employee_age"];
 	
 	$data[] = $nestedData;
 }

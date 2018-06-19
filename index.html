@@ -1,0 +1,180 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+<body>
+     <div class="header"><h1>QUẢN LÝ CHƯƠNG TRÌNH ĐÀO TẠO </h1></div>
+    <?php
+    require("connectDB.php");
+    ?>
+    <div class ="selCTDT" style="text-align: center;">
+        <label>Chọn Chương trình Đào tạo: </label>
+        <select name="CTDT" >
+                    <?php
+                        $sql = "select * from tblchuongtrinhdt";
+                        $rs = $conn-> query($sql);
+                        while ($row=$rs -> fetch_assoc()) {
+                            ?>
+                            <option value="<?php echo $row["maCT"]; ?>"><?php echo $row["tenCT"]; ?></option>
+                            <?php
+                        }   
+                    ?>
+
+        </select>
+        <a href="EditCTDT.php">...</a>
+         <select name = "Hki">
+            <option value="1">Học kì I</option>
+            <option value="2">Học kì II</option>
+            <option value="3">Học kì III</option>
+            <option value="4">Học kì IV</option>
+            <option value="5">Học kì V</option>
+            <option value="6">Học kì VI</option>
+            <option value="7">Học kì VII</option>            
+        </select>
+    </div>
+<table id="example" class="display" style="width:100%">
+        <thead>
+            <tr>
+                <th>id</th>
+                <th>Tên Môn học</th>
+                <th>Số Tín chỉ</th>
+            </tr>
+        </thead>
+        <tbody>
+            
+        </tbody>
+        <tfoot>
+            <tr>
+                <th>id</th>
+                <th>Tên Môn học</th>
+                <th>Số Tín chỉ</th>
+            </tr>
+        </tfoot>
+    </table>
+    <button id="button"> Chon xuong! </button>
+    <button id="button2"> Tra ve  </button>
+<table id="example2" class="display" style="width:100%">
+        <thead>
+            <tr>
+                <th>id</th>
+                <th>Tên Môn học</th>
+                <th>Số Tín chỉ</th>
+            </tr>
+        </thead>
+      <tbody>
+            
+      </tbody>
+        <tfoot>
+           <tr>
+                <th>id</th>
+                <th>Tên Môn học</th>
+                <th>Số Tín chỉ</th>
+            </tr>
+        </tfoot>
+    </table>
+
+</body>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script>
+
+$(document).ready(function() {
+    var events = $('#events');
+    var table = $("#example").DataTable({
+            ajax: 'dataSJ.php',
+            dom: 'Bfrtip',
+            select: true,
+             buttons: [
+            {
+                text: 'Get selected data',
+                action: function () {
+                    var count = table2.rows({ selected: true }).count();
+
+                    events.prepend('<div>' + count + ' row(s) selected</div>');
+                }
+            }
+        ]
+        }) 
+
+
+    var table2 = $('#example2').DataTable({
+        dom: 'Bfrtip',
+        select: true,
+        buttons: [
+            {
+                text: 'Get selected data',
+                action: function () {
+                    var count = table2.rows({ selected: true }).count();
+
+                    events.prepend('<div>' + count + ' row(s) selected</div>');
+                }
+            }
+        ]
+    });
+
+    
+    $('#button').click(function () {
+        var selectedRows = table.rows('.selected');
+        //them don da chon vao table2
+        table2.row.add(
+            [
+                selectedRows.data()[0][0],
+                selectedRows.data()[0][1],
+                selectedRows.data()[0][2],
+
+            ]
+        ).draw( false ); 
+        //Xoa dong da chon
+        table.rows('.selected').remove().draw(false);
+
+    });
+
+    $('#button2').click(function () {
+        var selectedRows = table2.rows('.selected');
+       
+        //them don da chon vao table
+        table.row.add(
+            [
+                selectedRows.data()[0][0],
+                selectedRows.data()[0][1],
+                selectedRows.data()[0][2],
+               
+            ]
+        ).draw(false);
+        //Xoa dong da chon
+        table2.rows('.selected').remove().draw(false);
+    });
+
+
+
+    $('#example, #example2 tbody').on('click', 'tr', function () {
+        if ($(this).hasClass('selected')) {
+            $(this).removeClass('selected');
+        }
+        else {
+            table.$('tr.selected').removeClass('selected');
+         
+            $(this).addClass('selected');
+        }
+    });
+    
+    
+
+ 
+  
+} );
+    
+ 
+   
+
+</script>
+</html>
