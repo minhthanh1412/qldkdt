@@ -15,19 +15,22 @@ $columns = array(
 	1 => 'tenMon',
 	2 => 'tongSoTC',
 	3 => 'soTCLyThuyet',
-	4 => 'soTCThuchanh'
+	4 => 'soTCThuchanh', 
+	5 => 'batbuoc',
 );
-
-$sql = "SELECT id, tenMon, tongSoTC, soTCLyThuyet, soTCThuchanh FROM tblmonhoc, a WHERE tblmonhoc.id = a.email AND a.last_name = 1";
+$sql = "SELECT id, tenMon, tongSoTC, soTCLyThuyet, soTCThuchanh, batbuoc FROM tblmonhoc, tblchitietctdt 
+	WHERE tblmonhoc.id = tblchitietctdt.maMH AND tblchitietctdt.soTTHK = 1  ";
 $query=mysqli_query($conn, $sql);
 while( $row=mysqli_fetch_array($query) ) {  // preparing an array
 	$nestedData=array(); 
 
-	$nestedData[] = $row["id"];
-	$nestedData[] = $row["tenMon"];
-	$nestedData[] = $row["tongSoTC"];
-	$nestedData[] = $row["soTCLyThuyet"];
-	$nestedData[] = $row["soTCThuchanh"];
+	$nestedData["id"] = $row["id"];
+	$nestedData["tenMon"] = $row["tenMon"];
+	$nestedData["tongSoTC"] = $row["tongSoTC"];
+	$nestedData["soTCLyThuyet"] = $row["soTCLyThuyet"];
+	$nestedData["soTCThuchanh"] = $row["soTCThuchanh"];
+	$nestedData["active"] = $row["batbuoc"];
+
 	
 	$data[] = $nestedData;
 }

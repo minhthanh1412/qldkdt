@@ -6,7 +6,7 @@
     $maMH  = $_POST['maMH'];
     $Hocki  = $_POST['Hocki'];
     //SQL query to get results from database
-    $sql    = "insert into a (first_name, last_name, email) values (?, ?, ?)  ";
+    $sql    = "insert into a (first_name, last_name, email, bb) values (?, ?, ?)  ";
     $stmt   = $conn->prepare($sql);
     $stmt->bind_param('sss', $maCT, $maMH, $Hocki);
     if($stmt->execute()){
@@ -17,4 +17,3 @@
     $conn->close();
 
 ?>
-

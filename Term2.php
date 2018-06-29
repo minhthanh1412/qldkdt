@@ -14,7 +14,7 @@ $columns = array(
 	0 =>'id', 
 	1 => 'tenMon',
 	2 => 'tongSoTC',
-	3 => 'soTCLyThuyet',
+	3 => 'soTCLythuyet',
 	4 => 'soTCThuchanh',
 );
 
@@ -23,11 +23,11 @@ $query=mysqli_query($conn, $sql);
 while( $row=mysqli_fetch_array($query) ) {  // preparing an array
 	$nestedData=array(); 
 
-	$nestedData[] = $row["id"];
-	$nestedData[] = $row["tenMon"];
-	$nestedData[] = $row["tongSoTC"];
-	$nestedData[] = $row["soTCLyThuyet"];
-	$nestedData[] = $row["soTCThuchanh"];
+	$nestedData["id"] = $row["id"];
+	$nestedData["tenMon"] = $row["tenMon"];
+	$nestedData["tongSoTC"] = $row["tongSoTC"];
+	$nestedData["soTCLyThuyet"] = $row["soTCLythuyet"];
+	$nestedData["soTCThuchanh"] = $row["soTCThuchanh"];
 
 
 	//$nestedData[] = $row["employee_age"];
