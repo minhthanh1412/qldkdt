@@ -10,7 +10,7 @@
     //SQL query to get results from database
     $sql    = "INSERT INTO tblchitietctdt (maCT, maMH, soTTHK, batbuoc) VALUES (?, ?, ?, ?) ";
     $stmt   = $conn->prepare($sql);
-    $stmt->bind_param('ssss', $maCT, $maMH, $Hocki, $batbuoc);
+    $stmt->bind_param('iiii', $maCT, $maMH, $Hocki, $batbuoc);
     if($stmt->execute()){
          $result = 1;
     }

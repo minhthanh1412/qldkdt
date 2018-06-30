@@ -23,6 +23,20 @@
     <script type="text/javascript" src="https://cdn.datatables.net/plug-ins/1.10.19/api/sum().js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.js"></script>
+    
+    <!-- <script type="text/javascript">
+        function load_ajax(){
+            
+
+                "ajax": {
+                "url": "dataTbl1.php",
+                "type": "POST"
+
+                 },
+
+        
+        }
+    </script> -->
     <style type="text/css">
 
         div.header {
@@ -76,8 +90,9 @@
     <div class ="selCTDT" style="text-align: center;">
         <form  name="frmCapNhat" id="frmCapNhat" method="POST">
             <div class="form-group">
-            <a href="#" data-toggel="tooltip" title="Thêm Chương trình Đào tạo!">...</a>
+            <a href="importexcel.php" data-toggel="tooltip" title="Thêm Chương trình Đào tạo!">...</a>
             <select name="CTDT" data-toggel="tooltip" title="Danh sách các Chương trình Đào tạo">
+                        <option>----Chọn Chương trình Đào tạo----</option>
                         <?php
                             $sql = "select * from tblchuongtrinhdt";
                             $rs = $conn-> query($sql);
@@ -90,16 +105,9 @@
                         <option value="2">MMT</option>
 
             </select>
-            <button type="submit" name = "getusers" class="btn btn-primary" data-toggel="tooltip" title="Chọn Chương trình Đào tạo!">Chọn</button>       
+            <button type="submit" name = "getCT" id ="getCT" class="btn btn-primary" data-toggel="tooltip" title="Chọn Chương trình Đào tạo!">Chọn</button>       
             </div> 
             </form>
-            <?
-            if(isset($_POST["getusers"]))
-            {
-                $a= $_POST["CTDT"];
-                echo $a;
-            }
-        ?>
     </div>
     <div class="container-fluid">
         <!-- Bang tam chua du lieu insert chi tiet -->
@@ -201,17 +209,19 @@
            
             <div class="col-md-6">
                  <!-- Bang cac Hki -->
+                 
             <input readonly="" align="center" name ="save" id ="save" class="btn btn-primary" data-toggel="tooltip" title="Lưu Chương trình Đào tạo!" value="Lưu Chương trình"></input> 
-           
+           <button style="width: 100px" onclick="myFunction()"  name ="ShowTC" id ="ShowTC" class="btn btn-primary" data-toggel="tooltip" title="Nhấn để xem số Tín chỉ của chương trình">Xem TC</button> 
+            <div id="ClassTC" style="visibility: hidden;">
                 <label align="right">Tổng TC:</label>
                 <input align="right" type="text" readonly="" id="txtTongTC" style="width: 50px">
 
-                <label align="right">Lý thuyết:</label>
+                <label align="right">LT:</label>
                 <input align="right" type="text" readonly="" id="txtTongTCLT" style="width: 50px">
 
-                <label align="right">Thực hành:</label>
+                <label align="right">TH:</label>
                 <input align="right" type="text" readonly="" id="txtTongTCTH" style="width: 50px">
-            </span>
+            </div>
                 <!-- I -->
             <div class ="tblmargin" id="hk1">
                 <h4>Học kỳ I</h4>
@@ -464,6 +474,7 @@
     
 $(document).ready(function() {
     var maCT=$("#maCT").val(), maMH, Hocki, Batbuoc, ghiChu;
+
     
     //Mảng lưu môn học bên các Học kì
     var DataTbl = new Array();
@@ -471,20 +482,19 @@ $(document).ready(function() {
 
     var events = $('#events');
     var table = $("#subject").DataTable({
-            ajax: 'dataSJ.php',
+           ajax:({
+                  method: "POST",
+                  url: "dataSJ.php",
+                  data: { 
+                        
+                        "maCT" : maCT,
+                        
+                  },
+             }),
             "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
             "pageLength": "50",
             select: true,
-             buttons: [
-                {
-                    text: 'Get selected data',
-                    action: function () {
-                        var count = tblhki3.rows({ selected: true }).count();
-
-                        events.prepend('<div>' + count + ' row(s) selected</div>');
-                    }
-                }
-            ],
+            
             columns: [
             { data: "id" },
             { data: "tenMon" },
@@ -499,7 +509,17 @@ $(document).ready(function() {
     // }, 10000 );
     var table2 = $('#Term1').DataTable({
         dom: 'Bfrtip',
-        ajax: 'dataTbl1.php',
+        ajax:({
+                  method: "POST",
+                  url: "DataTerms.php",
+                  data: { 
+                        
+                        "Hocki": 1,
+                        "maCT" : maCT,
+                        
+                  },
+             }),
+
         select: true,
           columns: [
             { data: "id" },
@@ -561,8 +581,19 @@ $(document).ready(function() {
         }
 
     });       
+
     var tblhki2 = $('#Term2').DataTable({
         dom: 'Bfrtip',  
+        ajax:({
+                  method: "POST",
+                  url: "DataTerms.php",
+                  data: { 
+                        
+                        "Hocki": 2,
+                        "maCT" : maCT,
+                        
+                  },
+             }),
         select: true,
           columns: [
             { data: "id" },
@@ -627,6 +658,16 @@ $(document).ready(function() {
     });
     var tblhki3 = $('#Term3').DataTable({
         dom: 'Bfrtip',
+        ajax:({
+                  method: "POST",
+                  url: "DataTerms.php",
+                  data: { 
+                        
+                        "Hocki": 3,
+                        "maCT" : maCT,
+                        
+                  },
+             }),
         select: true,
         columns: [
             { data: "id" },
@@ -692,6 +733,16 @@ $(document).ready(function() {
 
     var tblhki4 = $('#Term4').DataTable({
             dom: 'Bfrtip',
+            ajax:({
+                  method: "POST",
+                  url: "DataTerms.php",
+                  data: { 
+                        
+                        "Hocki": 4,
+                        "maCT" : maCT,
+                        
+                  },
+             }),
             select: true,
           columns: [
             { data: "id" },
@@ -756,6 +807,16 @@ $(document).ready(function() {
 
     var tblhki5 = $('#Term5').DataTable({
             dom: 'Bfrtip',
+            ajax:({
+                  method: "POST",
+                  url: "DataTerms.php",
+                  data: { 
+                        
+                        "Hocki": 5,
+                        "maCT" : maCT,
+                        
+                  },
+             }),
             select: true,
           columns: [
             { data: "id" },
@@ -820,6 +881,16 @@ $(document).ready(function() {
 
     var tblhki6 = $('#Term6').DataTable({
             dom: 'Bfrtip',
+            ajax:({
+                  method: "POST",
+                  url: "DataTerms.php",
+                  data: { 
+                        
+                        "Hocki": 6,
+                        "maCT" : maCT,
+                        
+                  },
+             }),
             select: true,
           columns: [
             { data: "id" },
@@ -883,6 +954,16 @@ $(document).ready(function() {
         });
     var tblhki7 = $('#Term7').DataTable({
             dom: 'Bfrtip',
+            ajax:({
+                  method: "POST",
+                  url: "DataTerms.php",
+                  data: { 
+                        
+                        "Hocki": 7,
+                        "maCT" : maCT,
+                        
+                  },
+             }),
             select: true,
           columns: [
             { data: "id" },
@@ -947,6 +1028,16 @@ $(document).ready(function() {
 
     var tblhki8 = $('#Term8').DataTable({
             dom: 'Bfrtip',
+            ajax:({
+                  method: "POST",
+                  url: "DataTerms.php",
+                  data: { 
+                        
+                        "Hocki": 8,
+                        "maCT" : maCT,
+                        
+                  },
+             }),
             select: true,
           columns: [
             { data: "id" },
@@ -1169,7 +1260,11 @@ $(document).ready(function() {
         }   
         
     });
-
+    $('#getCT').click(function(){
+        $("#txtTongTCLT").val( table2.column( 3 ).data().sum()+tblhki2.column( 3 ).data().sum()+tblhki3.column( 3 ).data().sum()+ tblhki4.column( 3 ).data().sum()+ tblhki5.column( 3 ).data().sum() +tblhki6.column( 3 ).data().sum() +tblhki7.column( 3 ).data().sum()+tblhki8.column( 3 ).data().sum());
+         $("#txtTongTCTH").val( table2.column( 4 ).data().sum()+tblhki2.column( 4 ).data().sum()+tblhki3.column( 4 ).data().sum()+ tblhki4.column( 4 ).data().sum()+ tblhki5.column( 4 ).data().sum() +tblhki6.column( 4 ).data().sum() +tblhki7.column( 4 ).data().sum()+tblhki8.column( 4 ).data().sum());
+         $("#txtTongTC").val(parseFloat($("#txtTongTCLT").val())+parseFloat($("#txtTongTCTH").val()));
+    });
     // HKi1
     $('#btn_Them').click(function (e) {
 
@@ -1626,24 +1721,7 @@ $(document).ready(function() {
 
         }
     });
-   $('.get_value').on('click', function(){
-        if(this.checked){
-            $('.get_value').val(true);
-        }
-        else{
-             $('.get_value').val(false);
-        }
 
-   });
-   $('.getkkk').on('click', function(){
-        if(this.checked){
-                    $('.getkkk').val(true);
-        }
-        else{
-             $('.getkkk').val(false);
-        }
-
-   });
     $('#Term1').on('change', 'input.editor-active', function () {
         $(this).prop('checked') ? 1 : 0;
                 
@@ -1690,7 +1768,30 @@ $(document).ready(function() {
          $("#txtTongTCTH").val( table2.column( 4 ).data().sum()+tblhki2.column( 4 ).data().sum()+tblhki3.column( 4 ).data().sum()+ tblhki4.column( 4 ).data().sum()+ tblhki5.column( 4 ).data().sum() +tblhki6.column( 4 ).data().sum() +tblhki7.column( 4 ).data().sum()+tblhki8.column( 4 ).data().sum());
          $("#txtTongTC").val(parseFloat($("#txtTongTCLT").val())+parseFloat($("#txtTongTCTH").val()));
     });
+    $('#ShowTC').on('click', function(){
+         
+         $("#txtTongTCLT").val( table2.column( 3 ).data().sum()+tblhki2.column( 3 ).data().sum()+tblhki3.column( 3 ).data().sum()+ tblhki4.column( 3 ).data().sum()+ tblhki5.column( 3 ).data().sum() +tblhki6.column( 3 ).data().sum() +tblhki7.column( 3 ).data().sum()+tblhki8.column( 3 ).data().sum());
+         $("#txtTongTCTH").val( table2.column( 4 ).data().sum()+tblhki2.column( 4 ).data().sum()+tblhki3.column( 4 ).data().sum()+ tblhki4.column( 4 ).data().sum()+ tblhki5.column( 4 ).data().sum() +tblhki6.column( 4 ).data().sum() +tblhki7.column( 4 ).data().sum()+tblhki8.column( 4 ).data().sum());
+         $("#txtTongTC").val(parseFloat($("#txtTongTCLT").val())+parseFloat($("#txtTongTCTH").val()));
+    });
+
+    $.fn.dataTable.ext.errMode = 'none';
+    $('#Term1 #Term2 #Term3 #Term4 #Term5 #Term6 #Term7 #Term8').on('error.dt', function(e, settings, techNote, message) {
+     console.log( 'An error occurred: ', message); 
+    });
+
 } );
 </script>
+<script>
+    
+    function myFunction() {
+        var x = document.getElementById('ClassTC');
+            if (x.style.visibility === 'hidden') {
+                x.style.visibility = 'visible';
+            } else {
+                x.style.visibility = 'hidden';
+            }
+        }
+    </script>
 </div>
 </html>
