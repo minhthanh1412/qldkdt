@@ -48,6 +48,7 @@
 	<link rel="stylesheet" type="text/css" href="">
 </head>
 <body>
+	 <a href="index.php"><img src="images/btn_home.png" style="width: 3%; margin-left: 0px" /></a>
 	<form method="POST" enctype="multipart/form-data">
 		<a href="MauEX/DSMonhoc.xlsx">Tải file mẫu tại đây!</a>
 		<input type="file" name="file">

@@ -1,49 +1,20 @@
+<!DOCTYPE html>
 <html>
 <head>
-   <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Thêm môn học</title>
-    <link href="css/bootstrap.min.css" rel="stylesheet"/>
-    <script type="text/javascript" src="js/btn_top.js"></script>
-    <link rel="stylesheet" href="css/btn_top.css" >
-    <script src="js/jquery.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/select/1.2.7/js/dataTables.select.min.js"></script>
-    <script type="text/javascript" src="http://arrow.scrolltotop.com/arrow86.js"></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <!-- jQuery library -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
-  
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Export data to PDF,Excel</title>
+<link href="css/bootstrap.min.css" rel="stylesheet"/>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/r/dt/jq-2.1.4,jszip-2.5.0,pdfmake-0.1.18,dt-1.10.9,af-2.0.0,b-1.0.3,b-colvis-1.0.3,b-html5-1.0.3,b-print-1.0.3,se-1.0.1/datatables.min.css"/>
+<script type="text/javascript" src="https://cdn.datatables.net/r/dt/jq-2.1.4,jszip-2.5.0,pdfmake-0.1.18,dt-1.10.9,af-2.0.0,b-1.0.3,b-colvis-1.0.3,b-html5-1.0.3,b-print-1.0.3,se-1.0.1/datatables.min.js"></script>
 
 
-
-<link rel ="stylesheet" href="https://editor.datatables.net/extensions/Editor/js/dataTables.editor.min.js">
-
-    <!-- Latest compiled JavaScript -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
-    <style type="text/css">
-        h4{
-            text-align: center;
-        }       
-    </style>
-    <script>
-            $(document).ready(function(){
-                $('[data-toggle="tooltip"]').tooltip();   
-            });
-    </script>
-</head>
-<body>
-    <div class="container-fluid">
-    <div id="InsertSJ">
+	
+	<div class="container" style="padding:20px;20px;">
+        <div id="InsertSJ">
     <div class="wrapper">
         <form action='ThemMon.php' method='POST' name="form_Themmon" class="form_Themmon">   
             <div class="row" >
-              <div class ="col-md-offset-1 col-md-4">
+              <div class ="col-md-offset-1 col-md-5">
                   <div class ="form-group">
                     <label>Mã MH:</label>
                     <input type="text" class="form-control" name="maMH" placeholder="Nhập mã Môn học...">
@@ -61,7 +32,7 @@
                     <input type="number" class="form-control" name="soTCLythuyet" placeholder="Nhập số TC Lý thuyết...">
                   </div>
               </div>
-              <div class="col-md-offset-1 col-md-4">
+              <div class="col-md-offset-1 col-md-5">
 
                   <div class ="form-group">
                     <label>Thực hành:</label>
@@ -114,12 +85,13 @@
         </form>     
     </div>
 </div>
-    <h3 style="text-align: center;">DANH SÁCH MÔN HỌC</h3>
-        
-        <table id="subjectEdit" class="display" style="width:100%; height: 500px;">
-            <thead>
-                <tr>
-                    <th width="2%">id</th>
+      <div class="">
+        <h1>Data Table with Export features Using PHP server-side</h1>
+        <div class="">
+		<table id="employee_grid" class="display" width="100%">
+        <thead>
+            <tr>
+                 <th width="2%">id</th>
                     <th width="2%">Mã MH</th>
                     <th width="20%">Tên MH</th>
                     <th width="50%">Mô tả</th>
@@ -130,13 +102,12 @@
                     <th width="2%">Ghi chú</th>
                     <th width="5%">Giai đoạn</th>
                     <th width="30%">Nhóm</th>
-                </tr>
-            </thead>
-            <tbody>  
-            </tbody>
-            <tfoot>
-                <tr>
-                     <th width="2%">id</th>
+            </tr>
+        </thead>
+ 
+        <tfoot>
+            <tr>
+               <th width="2%">id</th>
                     <th width="2%">Mã MH</th>
                     <th width="20%">Tên MH</th>
                     <th width="50%">Mô tả</th>
@@ -145,28 +116,24 @@
                     <th width="2%">TH</th>
                     <th width="2%">Tự học</th>
                     <th width="2%">Ghi chú</th>
-                    <th width="2%">Giai đoạn</th>
-                    <th width="2%">Nhóm</th>
-                </tr>
-            </tfoot>
-        </table>
+                    <th width="5%">Giai đoạn</th>
+                    <th width="30%">Nhóm</th>
+                
+            </tr>
+        </tfoot>
+    </table>
     </div>
-</form>
-</div>
-</div>
-</body>
+      </div>
+
+    </div>
+
 <script type="text/javascript">
-    $(document).ready(function() {
-    var table = $("#subjectEdit").DataTable({
-       
-            ajax: 'EditSJ.php',
-              select: {
-            style: 'single'
-        },
-            "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
-            "pageLength": "50",
-           
-            columns: [
+$( document ).ready(function() {
+$('#employee_grid').DataTable({
+		 "processing": true,
+         "ajax":"EditSJ.php",
+		 "dom": 'lBfrtip',
+          columns: [
                 { data: "id" },
                 { data: "maMH" },
                 { data: "tenMon" },
@@ -179,16 +146,15 @@
                 { data: "maGiaidoan" },
                 { data: "maNhom" },
             ],
-            className: "dt-body-center",
-        }) ;
+		 "buttons": [
+            {
+                extend: 'collection',
+                text: 'Export',
+                buttons: [
+                    'excel',
+                ]
+            }
+        ]
+        });
 });
-   //   $('#add').click(function(){
-   //     var html = '<tr>';
-   //     html += '<td contenteditable id="data1"></td>';
-   //     html += '<td contenteditable id="data2"></td>';
-   //     html += '<td><button type="button" name="insert" id="insert" class="btn btn-success btn-xs">Insert</button></td>';
-   //     html += '</tr>';
-   //     $('#subjectEdit tbody').prepend(html);
-   // });
 </script>
-</html>
