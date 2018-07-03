@@ -38,10 +38,37 @@
     </script>
 </head>
 <body>
+    <?php
+        include("connectDB.php");
+ 
+      if(isset($_POST['Submit']))
+      {
+                $mamon = $conn -> real_escape_string($_POST['maMH']);
+                $tenmon = $conn -> real_escape_string($_POST['tenMon']);
+                $tomtat = $conn -> real_escape_string($_POST['moTa']);
+               
+                $LT = $conn -> real_escape_string($_POST['soTCLythuyet']);
+                $TH = $conn -> real_escape_string($_POST['soTCThuchanh']);
+                $Tuhoc = $conn -> real_escape_string($_POST['soTCTuhoc']);
+                 $TongTC = $LT + $TH +$Tuhoc;
+                $ghiChu = $conn -> real_escape_string($_POST['ghiChu']);
+
+                $Giaidoan = $conn -> real_escape_string($_POST['maGiaidoan']);
+                $tenNhom = $conn -> real_escape_string($_POST['maNhom']);
+                
+            
+                $sql ="INSERT INTO `tblmonhoc` (`maMH`, `tenMon`, `moTa`, `tongSoTC`, `soTCLythuyet`, `soTCThuchanh`, `soTCTuhoc`, `ghiChu`, `maGiaidoan`, `maNhom`) VALUES ('$mamon','$tenmon', '$tomtat', $TongTC, $LT, $TH, $Tuhoc, '$ghiChu', $Giaidoan, $tenNhom) ";
+                if($conn ->query($sql) === TRUE)
+                echo "Insert successfully!";
+            else
+                echo "Error! ". $conn->error;
+    }
+    ?>
     <div class="container-fluid">
+             <a href="index.php"><img src="images/btn_home.png" style="width: 3%; margin-left: 0px" /></a>
     <div id="InsertSJ">
     <div class="wrapper">
-        <form action='ThemMon.php' method='POST' name="form_Themmon" class="form_Themmon">   
+        <form action='' method='POST' name="form_Themmon" class="form_Themmon">   
             <div class="row" >
               <div class ="col-md-offset-1 col-md-4">
                   <div class ="form-group">
@@ -73,7 +100,7 @@
                 </div>
                 <div class ="form-group">
                     <label>Ghi chú:</label>
-                    <textarea class="form-control" name="moTa" style="width: 100%; height: 100px" placeholder="Nhập ghi chú..."></textarea>
+                    <textarea class="form-control" name="ghiChu" style="width: 100%; height: 100px" placeholder="Nhập ghi chú..."></textarea>
                   </div>
                 <div class ="form-group">
                     <label>Giai đoạn:</label>
@@ -107,12 +134,14 @@
                         ?>
                     </select>
                 </div>
-                <div class ="form-group">   
-                      <button style="width: 220px; text-align: center;" class="btn btn-lg btn-primary btn-block" type="Submit"  name="Submit" >Thêm</button>     
-                </div>
-         
-        </form>     
-    </div>
+                
+         </div>
+     </div>
+            <center>
+                      <button style="width: 120px; text-align: center;" class="btn btn-lg btn-primary btn-block" type="Submit"  name="Submit" >Thêm</button>     
+            </center> 
+    </form>     
+    
 </div>
     <h3 style="text-align: center;">DANH SÁCH MÔN HỌC</h3>
         

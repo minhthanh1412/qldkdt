@@ -9,7 +9,7 @@ if(isset($_POST['btnExport']))
 	while ($rowCT = mysqli_fetch_array($rl)) {
 		$tenCT = $rowCT["tenCT"];
 	}
-
+	$totalTC =0; $totalLT=0; $totalTH =0;
 	$objExcel = new PHPExcel;
 	$objExcel -> setActiveSheetIndex(0);
 	$sheet = $objExcel -> getActiveSheet() -> setTitle("Monhoc");
@@ -17,12 +17,15 @@ if(isset($_POST['btnExport']))
 	//Ten Chương trình
 	$sheet -> setCellValue('A'.$rowCount, "$tenCT");
 	$sheet->mergeCells("A".($rowCount).":F".($rowCount));
+	$sheet -> getColumnDimension("A") ->setAutoSize(true);
 	$sheet -> getColumnDimension("B") ->setAutoSize(true);
+	$sheet -> getColumnDimension("C") ->setAutoSize(true);
 	$sheet ->getStyle('A1:F1') -> getFill() -> setFillType(\PHPExcel_Style_Fill::FILL_SOLID) -> getStartColor() ->setARGB('00ffff00');
 	$sheet->getStyle('A1:F1')->getAlignment() ->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
 
 	// //In ra từng học kì
 	$rowCount = $rowCount+1;
+
 	for($i=1; $i<=8; $i++)
 	{ 
 		// $sheet ->getStyle('A'.$rowCount) -> getFill() -> setFillType(\PHPExcel_Style_Fill::FILL_SOLID) -> getStartColor() ->setARGB('0099ff');
@@ -30,7 +33,9 @@ if(isset($_POST['btnExport']))
 
 		$sheet -> setCellValue('A'.$rowCount, "Học kì ". $i);
 		$sheet->mergeCells("A".($rowCount).":F".($rowCount));
-		$rowCount++;
+		$rowCount++; 
+		$sumTC =0; $sumLT=0; $sumTH =0;
+	
 		$sheet ->getStyle('A'.$rowCount.':F'.$rowCount) -> getFill() -> setFillType(\PHPExcel_Style_Fill::FILL_SOLID) -> getStartColor() ->setARGB('33CCFF');
 		$sheet->getStyle('A'.$rowCount.':F'.$rowCount)->getAlignment() ->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
 		$tam =$rowCount;
@@ -54,16 +59,34 @@ if(isset($_POST['btnExport']))
 			if($row['batbuoc'] == 0)
 				$sheet-> setCellValue('F'.$rowCount, "Không");
 			else
+			{
 				$sheet-> setCellValue('F'.$rowCount, "Có");
+				$sumTC = $sumTC +  $sheet->getCell( 'C'.$rowCount )->getValue();
+				$sumLT = $sumLT +  $sheet->getCell( 'D'.$rowCount )->getValue();
+				$sumTH = $sumTH +  $sheet->getCell( 'E'.$rowCount )->getValue();
+			}
 		}
+		$totalTC+=$sumTC;
+		$totalLT+=$sumLT;
+		$totalTH+=$sumTH;
 		$sheet->setCellValue('A'.($rowCount+1), "Tổng TC:");
 		$sheet->mergeCells("A".($rowCount+1).":B".($rowCount+1));
-		$sheet->setCellValue('C'.($rowCount+1), "=SUM(C$tam:C$rowCount)");
-		$sheet->setCellValue('D'.($rowCount+1), "=SUM(D$tam:D$rowCount)");
-		$sheet->setCellValue('E'.($rowCount+1), "=SUM(E$tam:E$rowCount)");
+		$sheet->setCellValue('C'.($rowCount+1), "$sumTC");
+		$sheet->setCellValue('D'.($rowCount+1), "$sumLT");
+		$sheet->setCellValue('E'.($rowCount+1), "$sumTH");
 		$sheet->setCellValue('F'.($rowCount+1), "");
 		$rowCount = $rowCount +2;
 	}
+	
+		$sheet->setCellValue('A'.($rowCount+1), "Tổng TC:");
+		$sheet->mergeCells("A".($rowCount+1).":B".($rowCount+1));
+		$sheet->setCellValue('C'.($rowCount+1), "$totalTC");
+		$sheet->setCellValue('D'.($rowCount+1), "$totalLT");
+		$sheet->setCellValue('E'.($rowCount+1), "$totalTH");
+		$sheet->setCellValue('F'.($rowCount+1), "");
+		$sheet ->getStyle('A'.($rowCount+1).':F'.($rowCount+1)) -> getFill() -> setFillType(\PHPExcel_Style_Fill::FILL_SOLID) -> getStartColor() ->setARGB('33CCFF');
+
+    $rowCount = $rowCount+1;
 	$objWriter =  new PHPExcel_Writer_Excel2007($objExcel);
 	$filename = 'Hocky.xlsx';
 	$objWriter ->save($filename);
